@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/SellersManager.styles.css"/>
+    <link rel="stylesheet" href="~/css/_Layout.css">
+    <!--<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css">-->
+    <link rel="icon" href="~/favicon.ico">
+    <!-- <link rel="stylesheet" href="../bootstrap-5.0.2-dist/css/bootstrap.min.css"> -->
+    <title>@ViewData["Title"]</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <section class="hamburger-menu">
+                <!-- Hamburger menu buttom-->
+                <div class="hamburger-buttom">
+                    <img src="/Images/hamburger-menu.png" alt="menu" onclick="MobileUserMenu()">
+                </div>
+
+                <div id="mobile-user-image">
+                    <img src="/Images/UserPhoto.jpg" alt="user-image" onclick="UserMenu()">
+                </div>
+            </section>
+            <ul>
+                <li class="menu-buttons">
+                    <a class="logo" asp-controller="Home" asp-action="#">
+                        <span class="name">RG</span>
+                        <span class="developer">Developer</span>
+                    </a>
+                </li>
+                <li class="menu-buttons"><a asp-controller="Home" asp-action="Index">Home</a></li>
+                <li class="menu-buttons"><a asp-controller="Home" asp-action="Privacy">About</a></li>
+                <li class="menu-buttons"><a asp-controller="Home" asp-action="Notes">Notes</a></li>
+                <li class="user-image">
+                    <img onclick="UserMenu()" src="/Images/UserPhoto.jpg" width="35px" id="user-image" alt="user image">
+                </li>
+                </ul>
+        </nav>
+    </header>
+    <div id="user-menu">
+        <!--Div com o menu do usuário-->
+    </div>
+
+    <div id="hamburger-menu">
+        <!-- div com o menu hamburger -->
+        <div>
+            <p onclick="MobileUserMenu()">X</p>
+        </div>
+        <ul>
+            <li class="hamburger-menu-buttons"><a href="#">Home</a></li>
+            <li class="hamburger-menu-buttons"><a href="#">About</a></li>
+            <li class="hamburger-menu-buttons"><a href="#">Notes</a></li>
+        </ul>
+    </div>
+
+    @RenderBody()
+
+    <footer>
+        <ul>
+            <li><a href="https://www.facebook.com/profile.php?id=100056212864743" target="_blank"><img src="/Images/facebook.png" alt="Facebook"></a></li>
+            <li><a href="https://www.instagram.com/rafael_gucky/" target="_blank" rel="noopener noreferrer"><img src="/Images/instagram.jpg" alt="Instagram"></a></li>
+            <li><a href="https://github.com/rafaelgucky?tab=overview&from=2023-12-01&to=2023-12-30" target="_blank" rel="noopener noreferrer"> <img src="/Images/github.png" alt="GitHub"></a></li>
+        </ul>
+        <p id="name">&copy; Rafael Gucky</p>
+    </footer>
+    <script src="~/js/_Layout.js"></script>
+    <!--<script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>-->
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

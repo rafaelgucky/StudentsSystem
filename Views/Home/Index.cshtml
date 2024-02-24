@@ -1,0 +1,41 @@
+﻿@model SellersManager.Models.Student
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<!--
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+-->
+
+
+<main class="container">
+    <section class="table">
+        @foreach(Day day in Model.Days)
+        {
+            <a asp-controller="Home" asp-action="DayEdit" asp-route-Id="@Model.Id" asp-route-dayId="@day.Id" class="day">
+                <h2>@day.DateTime.DayOfWeek</h2>
+                @foreach(Lesson lesson in day.Lessons)
+                {
+                    <p>@lesson.Name</p>
+                   
+                }
+            </a>
+        }
+        <a asp-controller="Home" asp-action="AddDay" class="day" asp-route-id="@Model.Id">
+            <img src="~/images/AddDay.png" alt="AddDay" class="AddDayImage" width="50px">
+        </a>
+    
+    </section>
+
+    <section id="calendar">
+        @for(int i = 1; i <= 31; i++)
+        {
+            
+            <a asp-controller="Home" asp-action="Calendar" asp-route-dayOfWeek="Monday" class="calendar-day"><p>@i</p></a>
+          
+        }
+    </section>
+</main>

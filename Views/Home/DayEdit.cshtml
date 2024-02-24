@@ -1,0 +1,20 @@
+﻿@model SellersManager.Models.Day
+@{
+    ViewData["Title"] = "DayEdit";
+}
+
+<h1>@Model.DateTime.DayOfWeek</h1>
+<h2>@Model.Lessons.Count</h2>
+<main class="container">
+    <p>@Model.DateTime.DayOfWeek</p>
+
+    @foreach (Lesson lesson in Model.Lessons)
+    {
+       <!-- <div>
+            <p>@lesson.Name</p>
+            <a asp-controller="Home" asp-action="Index" asp-route-id="@lesson.Id">Delete</a>
+         </div>-->
+    }
+
+    <a asp-controller="Home" asp-action="Delete" asp-route-id="@Model.Id" asp-route-studentid="@Model.StudentId">Delete</a>
+</main>

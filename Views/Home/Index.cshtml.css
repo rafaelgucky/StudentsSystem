@@ -1,0 +1,9 @@
+﻿/*.AddDay {
+    background-color: lightgray;
+    display: grid;
+    place-items: center;
+}*/
+
+.AddDayImage {
+    width: 10px;
+}

@@ -1,0 +1,16 @@
+﻿@model SellersManager.Models.ViewModels.DayViewModel;
+
+@{
+	ViewData["Title"] = "AddDay";
+}
+
+<section class="form">
+	<form asp-controller="Home" asp-action="AddDay">
+		<input type="number" asp-for="@Model.Day.StudentId" value="@Model.StudentId"/>
+		<div class="field">
+			<label asp-for="@Model.Day.DateTime">Date: </label>
+			<input asp-for="@Model.Day.DateTime" value="@DateTime.Now"/>
+		</div>
+		<input type="submit" value="Add day"/>
+	</form>
+</section>
