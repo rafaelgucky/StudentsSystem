@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SellersManager.Models
@@ -11,7 +12,7 @@ namespace SellersManager.Models
         [ForeignKey ("StudentId")]
         public int StudentId {  get; set; }
         public Student Student { get; set; }
-        public List<Lesson> Lessons { get; set; } = new List<Lesson>();
+        public IEnumerable<Lesson> Lessons { get; set; } = new List<Lesson>();
 
         public Day() { }
         public Day(DateTime dateTime, Student student)

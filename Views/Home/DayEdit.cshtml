@@ -3,18 +3,30 @@
     ViewData["Title"] = "DayEdit";
 }
 
-<h1>@Model.DateTime.DayOfWeek</h1>
-<h2>@Model.Lessons.Count</h2>
 <main class="container">
-    <p>@Model.DateTime.DayOfWeek</p>
+    <h2>@Model.DateTime.DayOfWeek</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Lesson</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Lesson lesson in Model.Lessons)
+            {
+                <tr>
+                    <td class="name">
+                        <p>@lesson.Name</p>
+                    </td>
+                    <td class="button">
+                        <a asp-controller="Home" asp-action="DeleteLesson" asp-route-id="@Model.StudentId" asp-route-dayId="@Model.Id" asp-route-lessonId="@lesson.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <a id="add" style="border-radius: 5px; padding: 5px; text-decoration: none; background-color: green; width: 130px; margin: 5px 0px;" asp-controller="Home" asp-action="AddLesson" asp-route-id="@Model.StudentId" asp-route-dayId="@Model.Id">Add a new lesson</a>
 
-    @foreach (Lesson lesson in Model.Lessons)
-    {
-       <!-- <div>
-            <p>@lesson.Name</p>
-            <a asp-controller="Home" asp-action="Index" asp-route-id="@lesson.Id">Delete</a>
-         </div>-->
-    }
-
-    <a asp-controller="Home" asp-action="Delete" asp-route-id="@Model.Id" asp-route-studentid="@Model.StudentId">Delete</a>
+    <a style="border-radius: 5px; padding: 5px; text-decoration: none; background-color: red; width: 50px; margin: 5px 0px;" asp-controller="Home" asp-action="Delete" asp-route-id="@Model.Id" asp-route-studentid="@Model.StudentId" class="delete">Delete</a>
 </main>

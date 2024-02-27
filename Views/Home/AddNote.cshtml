@@ -1,0 +1,33 @@
+﻿@model SellersManager.Models.ViewModels.NoteViewModel;
+
+@{
+	ViewData["Title"] = "Add note";
+}
+
+<main class="container">
+	<section class="form">
+		<form asp-controller="Home" asp-action="AddNote">
+			<div class="field">
+				<label asp-for="@Model.Note.Value"></label>
+				<input asp-for="@Model.Note.Value" />
+			</div>
+			<div class="field">
+				<label asp-for="@Model.Note.Type"></label>
+				<select asp-for="@Model.Note.Type" >
+					<option value="Avaliation">Avaliation</option>
+					<option value="HomeWork">Homework</option>
+					<option value="Notebook">Notebook</option>
+				</select>
+			</div>
+			<div class="field">
+				<label asp-for="@Model.Note.Date"></label>
+				<input asp-for="@Model.Note.Date" />
+			</div>
+			<div class="field">
+				<label asp-for="@Model.Note.LessonId"></label>
+				<select asp-for="@Model.Note.LessonId" asp-items="@(new SelectList(Model.Lessons, "Id", "Name"))"></select>
+			</div>
+			<input type="submit" value="Add note"/>
+		</form>
+	</section>
+</main>

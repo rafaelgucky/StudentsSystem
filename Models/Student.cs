@@ -13,7 +13,7 @@ namespace SellersManager.Models
         [Required(ErrorMessage = "The password field is required")]
         [MaxLength (20)]
         public string Password { get; set; }
-        public List<Day> Days { get; set; } = new List<Day>();
+        public IEnumerable<Day> Days { get; set; } = new List<Day>();
 
         public Student() { }
         public Student(string name)

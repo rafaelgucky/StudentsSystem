@@ -45,38 +45,9 @@ namespace SellersManager.Services
 
         public async Task<Student> SetStudent(int id)
         {
-            Student student = await _context.Students.FindAsync(id);
-            student = _context.Students.Include(student => student.Days).FirstOrDefault(student => student.Id == id);
-            
-
-            //student.Days = _dayServices.GetById(id);
-
-            student.Days.ForEach(day => day.Lessons =  _lessonServices.GetById(day.Id));
-
-            student.Days.ForEach(day => day.Lessons.ForEach(lesson => lesson.Tasks = _lessonServices.GetTasks(lesson.Id)));
-
-            student.Days.ForEach(day => day.Lessons.ForEach(lesson => lesson.Notes = _lessonServices.GetNotes(lesson.Id)));
-
-            
-
-
-            /*student.Days = await _context.Days.Where(day => day.Student.Equals(student)).ToListAsync();
-
-            foreach(Day day in student.Days)
-            {
-                day.Lessons = await _context.Lessons.Where(lesson => lesson.Day.Id == day.Id).ToListAsync();
-            }
-
-            foreach (Day day in student.Days)
-            {
-                if(day.Lessons.Count < 1) { continue; }
-
-                foreach(Lesson lesson in day.Lessons)
-                {
-                    lesson.Tasks.AddRange(_context.Avaliations.Where(avaliation => avaliation.Lesson.Id == lesson.Id));
-                    lesson.Notes = _context.Notes.Where(note => note.Lesson.Id == lesson.Id).ToList();
-                }
-            }*/
+            Student student = await _context.Students.Include(student => student.Days).FirstOrDefaultAsync(student => student.Id == id);
+            student.Days = _context.Days.Include(day => day.Lessons).Where(day => day.StudentId == id).ToList();
+            student.Days.ToList().ForEach(day => day.Lessons = _context.Lessons.Include(lesson => lesson.Tasks).Include(x => x.Notes).Where(lesson => lesson.DayId == day.Id).ToList());
 
             return student;
         }
@@ -107,8 +78,7 @@ namespace SellersManager.Services
         public void Delete(Student student)
         {
             _context.Students.Remove(student);
-            List<Day> days = _context.Days.Where(day => day.Student == student).ToList();
-            _context.Days.RemoveRange(days);
+            _context.SaveChanges();
             
         }
     }

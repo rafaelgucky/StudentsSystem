@@ -25,14 +25,14 @@
             </section>
             <ul>
                 <li class="menu-buttons">
-                    <a class="logo" asp-controller="Home" asp-action="#">
+                    <a class="logo" asp-controller="Home" asp-action="Index" asp-route-id="@ViewData["Id"]">
                         <span class="name">RG</span>
                         <span class="developer">Developer</span>
                     </a>
                 </li>
-                <li class="menu-buttons"><a asp-controller="Home" asp-action="Index">Home</a></li>
-                <li class="menu-buttons"><a asp-controller="Home" asp-action="Privacy">About</a></li>
-                <li class="menu-buttons"><a asp-controller="Home" asp-action="Notes">Notes</a></li>
+                <li class="menu-buttons"><a asp-controller="Home" asp-action="Index" asp-route-id="@ViewData["Id"]">Home</a></li>
+                <li class="menu-buttons"><a asp-controller="Home" asp-action="Privacy" asp-route-id="@ViewData["Id"]">About</a></li>
+                <li class="menu-buttons"><a asp-controller="Home" asp-action="Notes" asp-route-id="@ViewData["Id"]">Notes</a></li>
                 <li class="user-image">
                     <img onclick="UserMenu()" src="/Images/UserPhoto.jpg" width="35px" id="user-image" alt="user image">
                 </li>

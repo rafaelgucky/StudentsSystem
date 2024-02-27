@@ -1,0 +1,19 @@
+﻿
+@model SellersManager.Models.ViewModels.LessonViewModel;
+
+@{
+	ViewData["Title"] = "AddLesson";
+}
+
+<main class="container">
+	<section class="form">
+		<form asp-controller="Home" asp-action="AddLesson">
+			<input type="hidden" asp-for="@Model.Lesson.DayId" value="@Model.DayId"/>
+			<div class="field">
+				<label asp-for="@Model.Lesson.Name">Name: </label>
+				<input type="text" asp-for="@Model.Lesson.Name"/>
+			</div>
+			<input type="submit" value="Add lesson"/>
+		</form>
+	</section>
+</main>

@@ -8,6 +8,7 @@ namespace SellersManager.Models
     {
         public int Id { get; set; }
         public double Value {  get; set; }
+        [DataType(DataType.Date)]
         public DateTime Date { get; set; }
         public NoteType Type { get; set; }
 
@@ -24,5 +25,5 @@ namespace SellersManager.Models
             Lesson = lesson;
             LessonId = lesson.Id;
         }
-    }
+	}
 }

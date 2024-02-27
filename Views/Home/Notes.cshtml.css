@@ -1,3 +1,14 @@
 main.container {
-	grid-template-columns: repeat(auto-fit, 150px);
+	grid-template-columns: repeat(auto-fit, minmax(150px, 250px));
+}
+.lesson{
+	background-color: lightgray;
+	margin: 2px;
+	padding: 2px;
+	border-radius: 5px;
+}
+.note{
+	background-color: white;
+	padding: 1px;
+	border-radius: 5px;
 }

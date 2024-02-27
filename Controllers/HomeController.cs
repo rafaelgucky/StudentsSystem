@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.IO.Enumeration;
 using System.IO;
 using SellersManager.Services;
+using NuGet.Packaging;
 
 namespace SellersManager.Controllers
 {
@@ -37,6 +38,7 @@ namespace SellersManager.Controllers
             {
                 return RedirectToAction(nameof (Login));
             }
+            ViewData["Id"] = student.Id;
             Student student1 = _studentService.FindByNameAndPassword(student.Name, student.Password);
 
             return RedirectToAction(nameof(Index), new { Id = student1.Id });
@@ -49,6 +51,7 @@ namespace SellersManager.Controllers
             {
                 return RedirectToAction(nameof(Login));
             }
+            ViewData["Id"] = id;
             Student std = await _studentService.SetStudent(id);
             return View(std);
         }
@@ -58,6 +61,7 @@ namespace SellersManager.Controllers
 
             return View(new StudentViewModel());
         }
+
         [HttpPost]
         public IActionResult Register(Student student)
         {
@@ -70,7 +74,7 @@ namespace SellersManager.Controllers
                 return RedirectToAction(nameof(Index), new {Id = _studentService.FindByNameAndPassword(student.Name, student.Password).Id});
             }
             _studentService.Add(student);
-            return RedirectToAction("Index", new { Id = student.Id });
+            return RedirectToAction(nameof(Index), new { Id = student.Id });
         }
 
         [HttpGet]
@@ -100,24 +104,25 @@ namespace SellersManager.Controllers
         
         public async Task<IActionResult> Notes(int id)
         {
-            List<Lesson> t = new List<Lesson>();
-            Lesson lesson = new Lesson("Math", new Day());
-            Lesson lesson1 = new Lesson("Por", new Day());
-            Lesson lesson2 = new Lesson("Geo", new Day());
-            lesson.AddNote(new Note(DateTime.Now, Models.Enums.NoteType.Avaliation, 9.0, new Lesson()));
-            lesson.AddNote(new Note(DateTime.Now, Models.Enums.NoteType.Homework, 6.0, new Lesson()));
-            lesson1.AddNote(new Note(DateTime.Now, Models.Enums.NoteType.Homework, 8.0, new Lesson()));
-            lesson2.AddNote(new Note(DateTime.Now, Models.Enums.NoteType.Notebook, 7.0, new Lesson()));
-            t.Add(lesson);
-            t.Add(lesson1);
-            t.Add(lesson2);
+            ViewData["Id"] = id;
+
             if(id == 0)
             {
-                id = 6;
-                Student std = await _studentService.SetStudent(id);
-                return View(std);
+                return NotFound();
             }
-            return View(new Student());
+            Student student = _studentService.SetStudent(id).Result;
+
+            foreach(Day day in student.Days)
+            {
+                HashSet<Lesson> lessons = new HashSet<Lesson>();
+                foreach (Lesson lesson in day.Lessons)
+                {
+                    lessons.Add(lesson);
+                }
+                day.Lessons = lessons;
+            }
+
+            return View(student);
         }
 
         public IActionResult Calendar(string dayOfWeek)
@@ -146,23 +151,66 @@ namespace SellersManager.Controllers
             return View(day);
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        public IActionResult Privacy()
+        [HttpGet]
+        public IActionResult AddLesson(int id, int dayId)
         {
+            return View(new LessonViewModel(dayId));
+        }
+
+        [HttpPost]
+        public IActionResult AddLesson(int id, Lesson lesson)
+        {
+            
+            _context.Lessons.Add(lesson);
+            _context.SaveChanges();
+
+            return RedirectToAction(nameof(Index), new { Id = id });
+        }
+
+        public IActionResult DeleteLesson(int id, int dayId, int lessonId)
+        {
+            _context.Lessons.Remove(_context.Lessons.Where(lesson => lesson.Id == lessonId).SingleOrDefault());
+            _context.SaveChanges();
+
+            return RedirectToAction(nameof(DayEdit), new { Id = id, dayId = dayId });
+        }
+
+        public async Task<IActionResult> AddNote(int id)
+        {
+            @ViewData["Id"] = id;
+
+            Student student = await _studentService.SetStudent(id);
+
+            List<Lesson> lessons = new List<Lesson>();
+
+            foreach (Day day in student.Days)
+            {
+                lessons.AddRange(day.Lessons);
+            }
+
+            return View(new NoteViewModel(lessons));
+		}
+
+        [HttpPost]
+        public IActionResult AddNote(int id, Note note)
+        {
+            _context.Notes.Add(note);
+            _context.SaveChanges();
+            return RedirectToAction(nameof(Notes), new { Id = id });
+        }
+
+
+
+
+
+
+
+
+
+
+        public IActionResult Privacy(int id)
+        {
+            ViewData["Id"] = id;
             return View();
         }
 

@@ -1,10 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
 namespace SellersManager.Models
 {
-    public class Lesson
+    public class Lesson : IComparable
     {
         public int Id { get; set; }
         public string Name {  get; set; }
@@ -50,6 +51,32 @@ namespace SellersManager.Models
         public IEnumerable<Note> GetNotes(DateTime initial, DateTime final)
         {
             return Notes.Where(note => note.Date >= initial && note.Date <= final);
+        }
+
+		public int CompareTo(object obj)
+		{
+			if (obj is Lesson)
+			{
+				Lesson lesson = obj as Lesson;
+                return Name.CompareTo(lesson.Name);
+		
+            }
+            return 0;
+		}
+
+        public override int GetHashCode()
+        {
+            return Name.GetHashCode();
+        }
+
+        public override bool Equals(object obj)
+        {
+            if(obj is Lesson)
+            {
+                Lesson lesson = obj as Lesson;
+                return lesson.Name.Equals(Name);
+            }
+            return false;
         }
     }
 }

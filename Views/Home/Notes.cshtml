@@ -1,12 +1,12 @@
 ﻿@using System.Linq;
+@using NuGet.Packaging;
 @using SellersManager.Models;
 @model Student;
 @{
     ViewData["Title"] = "Notes";
+    
 }
-@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+
 <main class="container">
     @foreach(Day day in Model.Days)
     {
@@ -16,9 +16,10 @@
                 <h1>@lesson.Name</h1>
                 @foreach(Note note in lesson.Notes)
                 {
-                    <p>@note.Value - @note.Type</p>
+                    <p class="note">@note.Value - @note.Type</p>
                 }
             </div>
         }
     }
+    <a asp-controller="Home" asp-action="AddNote" asp-route-id="@Model.Id">Add a new note</a>
 </main>
